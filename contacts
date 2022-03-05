@@ -1,8 +1,8 @@
 <html>
 <head>
   <title>ooyoot</title>
-  <link href="logo/ooyoot256.png" type="image/jpeg" rel="image_src" />
-  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <!-- <link href="logo/doj.png" type="image/jpeg" rel="image_src" /> -->
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Rubik+Mono+One&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet" />
