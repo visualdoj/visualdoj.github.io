@@ -535,7 +535,6 @@
         var watchCaramelldansen = function () {
             var delta = window.performance.now() - caramelldansen_last;
             var limit = 300 + 100 * Math.min(caramelldansen_kicks, 30);
-            console.log('watchCaramelldansen delta=', delta, ' limit=', limit);
             if (delta > limit) {
                 caramelldansen_playing = false;
                 document.getElementById('trinket_caramelldansen').pause();
@@ -547,7 +546,6 @@
             var delta = window.performance.now() - caramelldansen_last;
             caramelldansen_last = window.performance.now();
             caramelldansen_kicks = caramelldansen_kicks + 400 - delta;
-            console.log('caramelldansen_kicks = ', caramelldansen_kicks);
             if (caramelldansen_kicks < 0) {
                 caramelldansen_kicks = 0;
             }
@@ -637,10 +635,6 @@
 
             var contrastRatio = (L1 + 0.05) / (L2 + 0.05);
             if (contrastRatio >= 4.5) {
-                // console.log('L1 = ' + L1);
-                // console.log('L2 = ' + L2);
-                // console.log('contrastRatio = ' + contrastRatio);
-                // console.log('i = ' + i);
                 // Found!
                 break;
             }
@@ -758,30 +752,21 @@
                      + "uniform sampler2D Texture;\n"
                      + "uniform vec4 PrimaryColor;\n"
                      + "uniform vec4 BackgroundColor;\n"
-                     + "uniform vec2 PageBorders;\n"
-                     + "uniform float Time;\n"
+                     + "uniform vec2 PageBorders; // x - left border, y - right border\n"
                      + "uniform float Factor;\n"
                      + "uniform float Stage;\n"
                      + "uniform float CaramelldansenFactor;\n"
-//                     + "varying vec2 fTexCoord;\n"
                      + "varying vec2 fCoord;\n"
                      + "void main() {\n"
                      + "    float upscale = 0.68;\n" 
                      + "    vec2 cellSize = vec2(128.0*upscale, 128.0*upscale);\n" 
                      + "    vec2 cell = vec2(floor(fCoord.x/cellSize.x), floor(fCoord.y/cellSize.y));\n" 
                      + "\n" 
-                     + "    // avoid branches\n"
-                     + "    float stage0 = float(Stage == 0.0);\n" 
-                     + "    float stage1 = float(Stage == 1.0);\n" 
-                     + "    float stage2 = float(Stage == 2.0);\n" 
-                     + "    float stage3 = float(Stage == 3.0);\n" 
-                     + "    float stage4 = float(Stage == 4.0);\n" 
-                     + "    float stage5 = float(Stage == 5.0);\n" 
-                     + "\n" 
                      + "    const float pi = 3.1415926535897932384626433832795;\n" 
                      + "    float horizontal_even = float(mod(cell.y, 2.0) == 0.0);\n" 
                      + "    float diagonal2_even = float(mod(floor((fCoord.x + fCoord.y + cellSize.x/2.0)/cellSize.x), 2.0) == 0.0);\n" 
                      + "    float diagonal1_even = float(mod(floor((fCoord.x - fCoord.y + cellSize.y/2.0)/cellSize.y), 2.0) == 0.0);\n" 
+                     + "    // avoid branches\n"
                      + "    vec2  dir = vec2(float(Stage == 0.0) *        horizontal_even)  * vec2( 1.0, 0.0)\n" 
                      + "              + vec2(float(Stage == 0.0) * (1.0 - horizontal_even)) * vec2(-1.0, 0.0)\n" 
                      + "              + vec2(float(Stage == 1.0) * (1.0 -  diagonal1_even)) * vec2(  sqrt(2.0)*cos(    pi/4.0),   sqrt(2.0)*sin(    pi/4.0))\n" 
@@ -837,13 +822,11 @@
         var backgroundColorLocation = gl.getUniformLocation(shader, "BackgroundColor");
         var screenSizeLocation = gl.getUniformLocation(shader, "ScreenSize");
         var pageBordersLocation = gl.getUniformLocation(shader, "PageBorders");
-        var timeLocation = gl.getUniformLocation(shader, "Time");
         var factorLocation = gl.getUniformLocation(shader, "Factor");
         var caramelldansenFactorLocation = gl.getUniformLocation(shader, "CaramelldansenFactor");
         var stageLocation = gl.getUniformLocation(shader, "Stage");
 
         var render = function(time) {
-            // console.log('render');
             canvas.width  = window.innerWidth;
             canvas.height = window.innerHeight;
 
@@ -880,7 +863,6 @@
                 } else {
                     factor = 2.0 - (2.0 - factor) * (2.0 - factor);
                 }
-                // console.log('factor = ', factor);
                 gl.uniform1f(factorLocation, 0.68 * 256 * factor / 2.0);
                 var stage = Math.floor((now * 0.08) % (6 * 256) / 256);
                 gl.uniform1f(stageLocation, stage);
@@ -905,9 +887,6 @@
     }
 
     function togglePandas(element) {
-        // console.log('checked =', element.checked);
-        // console.log('renderInitialized =', renderInitialized);
-        // console.log('enablePandas =', enablePandas);
         if (element.checked) {
             startPandas();
             document.getElementById("checkmark").style.backgroundColor = getColor(r1, g1, b1);
