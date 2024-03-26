@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Venture countdown</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Pick some nice fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@250">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@250">
+
+  <!-- Style -->
+  <style>
+      body {
+          background-color:#3D2C23;
+          color: #DAC315;
+      }
+      h1 {
+          font-family: 'Inter', sans-serif;
+          font-weight: 550;
+      }
+      p {
+          font-family: 'Raleway', Helvetica, serif;
+          font-size: 26px;
+          padding: 0px;
+          margin-top: 4px;
+          margin-bottom: 2px;
+      }
+      .vertical-center {
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+      }
+  </style>
+</head>
+<body>
+
+  <div class="vertical-center" style="width:99%">
+      <h1 style="text-align:center">VENTURE RELEASE COUNTDOWN</h1>
+      <p style="text-align:center" id="countdown"></p>
+  </div>
+
+<script type="text/javascript">
+  function update() {
+    var countDownDate = new Date("Apr 16, 2024 23:00:00+05:00").getTime();
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+
+    var countdown_text = " ";
+    if (distance > 0) {
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      if (countdown_text != " " || days > 0) {
+          countdown_text = countdown_text + days + "d ";
+      }
+      if (countdown_text != " " || hours > 0) {
+          countdown_text = countdown_text + hours + "h ";
+      }
+      if (countdown_text != " " || minutes > 0) {
+          countdown_text = countdown_text + minutes + "m ";
+      }
+      if (countdown_text != " " || seconds > 0) {
+          countdown_text = countdown_text + seconds + "s ";
+      }
+    } else {
+      countdown_text = "🎉 RELEASED! 🎉";
+    }
+
+    var element = document.getElementById("countdown");
+    element.innerHTML = countdown_text;
+  }
+
+  update();
+  window.setInterval(update, 1000);
+</script>
+</body>
+</html>
